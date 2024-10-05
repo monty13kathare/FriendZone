@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteCommentOnPost } from "../../redux/Actions/Post";
-import { getFollowingPosts, getMyPosts } from "../../redux/Actions/User";
+import { deleteCommentOnPost } from "../redux/Actions/Post";
+import { getAllPosts, getFollowingPosts, getMyPosts } from "../redux/Actions/User";
 import { VscTrash } from "react-icons/vsc";
 
 const CommentCard = ({
@@ -17,20 +17,22 @@ const CommentCard = ({
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const deleteCommentHandle = () => {
-    dispatch(deleteCommentOnPost(postId, commentId));
+  const deleteCommentHandle = async () => {
+    await dispatch(deleteCommentOnPost(postId, commentId));
 
-    if (isAccount) {
-      dispatch(getMyPosts());
-    } else {
-      dispatch(getFollowingPosts());
-    }
+    dispatch(getAllPosts());
+
+    // if (isAccount) {
+    //   dispatch(getMyPosts());
+    // } else {
+    //   dispatch(getFollowingPosts());
+    // }
   };
 
   return (
     <div className="flex justify-between items-start p-2">
       {/* Comment Section */}
-      <div className="flex gap-3 items-start">
+      <div className="flex gap-3 items-start flex-wrap">
         {/* User Avatar */}
         <Link to={`/user/${userId}`}>
           <img

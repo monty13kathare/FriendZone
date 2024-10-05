@@ -30,21 +30,24 @@ const Home = () => {
                         <Loader />
                     ) : (
                         <ul className="flex flex-col flex-1 gap-9 w-full">
-                            {posts?.map((post) => (
-                                <Post
-                                    postId={post._id}
-                                    caption={post.caption}
-                                    postImage={post.image.url}
-                                    likes={post.likes}
-                                    comments={post.comments}
-                                    ownerImage={post.owner.avatar.url}
-                                    ownerName={post.owner.name}
-                                    ownerId={post.owner._id}
-                                    location={post.location}
-                                    createdAt={post.createdAt}
-                                    tags={post.tags}
-                                    post={post}
-                                />
+                            {posts?.map((post, index) => (
+                                <div key={index}>
+                                    <Post
+                                        postId={post._id}
+                                        caption={post.caption}
+                                        postImage={post.image.url}
+                                        likes={post.likes}
+                                        comments={post.comments}
+                                        ownerImage={post.owner.avatar.url}
+                                        ownerName={post.owner.name}
+                                        ownerId={post.owner._id}
+                                        location={post.location}
+                                        createdAt={post.createdAt}
+                                        tags={post.tags}
+                                        post={post}
+                                    />
+                                </div>
+
                             ))}
                         </ul>
                     )}

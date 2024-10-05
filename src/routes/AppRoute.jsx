@@ -3,10 +3,9 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 
 import SignUp from "../pages/SignUp";
-import UpdatePassword from "../Components/UpdatePassword/UpdatePassword";
-import ForgotPassword from "../Components/ForgotPassword/ForgotPassword";
-import ResetPassword from "../Components/ResetPassword/ResetPassword";
-import NotFound from "../Components/NotFound/NotFound";
+import UpdatePassword from "../pages/UpdatePassword";
+import ForgotPassword from "../Components/ForgotPassword";
+import ResetPassword from "../Components/ResetPassword";
 import { loadUser } from "../redux/Actions/User";
 import Login from "../pages/LoginPage";
 import Home from "../pages/Home";
@@ -19,6 +18,7 @@ import UpdateProfile from "../pages/UpdateProfile";
 import UserProfile from "../pages/UserProfile";
 import Account from "../pages/Account";
 import EditPost from "../pages/EditPost";
+import NotFoundPage from "../Components/NotFound";
 
 function AppRoute() {
     const dispatch = useDispatch();
@@ -52,7 +52,7 @@ function AppRoute() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/forgot/password" element={<ForgotPassword />} />
                 <Route path="/password/reset/:token" element={<ResetPassword />} />
-                <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </Router>
     );

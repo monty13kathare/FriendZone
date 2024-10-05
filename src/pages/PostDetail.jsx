@@ -3,10 +3,11 @@ import Loader from "../Components/Loader";
 import GridPostList from "../Components/GridPostList";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getAllPosts, getPostById, getUserpost } from "../redux/Actions/User";
+import { getAllPosts, getMyPosts, getPostById, getUserpost } from "../redux/Actions/User";
 import { multiFormatDateString } from "../utils";
 import axios from "axios";
-import { deletePost } from "../redux/Actions/Post";
+import { deletePost, updatePost } from "../redux/Actions/Post";
+import { VscChromeClose } from "react-icons/vsc";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -16,12 +17,20 @@ const PostDetails = () => {
     const user = useSelector((state) => state.user?.user);
     const dispatch = useDispatch();
     const [post, setPost] = useState({})
-
+    const [captionToggle, setCaptionToggle] = useState(false);
+    const [captionValue, setCaptionValue] = useState(post?.caption);
     const { loading, posts, error } = useSelector((state) => state.allPosts);
 
     const deleteMyPost = async (id) => {
         await dispatch(deletePost(id));
         navigate(-1);
+    };
+
+
+    const updateCaptionHandler = (e) => {
+        e.preventDefault();
+        dispatch(updatePost(captionValue, post?._id));
+        dispatch(getMyPosts());
     };
 
     // Function to get random 3 posts
@@ -55,7 +64,9 @@ const PostDetails = () => {
         fetchData();
     }, [id]);
 
-
+    useEffect(() => {
+        setCaptionValue(post?.caption)
+    }, [post])
 
 
     return (
@@ -115,8 +126,9 @@ const PostDetails = () => {
                             </Link>
 
                             <div className="flex-center gap-4">
-                                <Link
-                                    to={`/update-post/${post._id}`}
+                                <div
+                                    // to={`/update-post/${post._id}`}
+                                    onClick={() => setCaptionToggle(!captionToggle)}
                                 >
                                     <img
                                         src={"/assets/icons/edit.svg"}
@@ -125,7 +137,7 @@ const PostDetails = () => {
                                         height={24}
                                         className={`${user._id !== post.owner?._id ? "hidden" : "flex"}`}
                                     />
-                                </Link>
+                                </div>
 
                                 <button
                                     onClick={() => deleteMyPost(post._id)}
@@ -174,6 +186,41 @@ const PostDetails = () => {
                     <GridPostList posts={randomPosts} />
                 )}
             </div>
+
+
+
+            {/* Update Caption Modal */}
+            {captionToggle && (
+                <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center">
+                    <div className="flex gap-4 flex-col bg-gray-800 rounded-lg p-6 w-full max-w-xs sm:max-w-sm md:max-w-md relative">
+                        <div className="flex justify-between h-fit">
+                            <h3 className="text-lg md:text-xl font-bold mb-4 text-gray-200">Update Caption</h3>
+                            <button
+                                className=" text-gray-200 text-base"
+                                onClick={() => setCaptionToggle(!captionToggle)}
+                            >
+                                <VscChromeClose />
+                            </button>
+                        </div>
+
+                        <form onSubmit={updateCaptionHandler} className="space-y-3">
+                            <input
+                                type="text"
+                                className="w-full p-2 border border-gray-300 text-gray-500 rounded-md text-sm md:text-base"
+                                value={captionValue}
+                                onChange={(e) => setCaptionValue(e.target.value)}
+                                required
+                            />
+                            <button
+                                type="submit"
+                                className="bg-primary-500 text-white px-4 py-2 rounded-md hover:bg-primary-600 transition-all"
+                            >
+                                Update
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

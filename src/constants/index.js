@@ -38,13 +38,13 @@ export const sidebarLinks = [
       label: "Explore",
     },
     {
-      imgURL: "/assets/icons/bookmark.svg",
-      route: "/saved",
-      label: "Saved",
+      imgURL: "/assets/icons/people.svg",
+      route: "/friends",
+      label: "People",
     },
     {
       imgURL: "/assets/icons/gallery-add.svg",
-      route: "/create-post",
+      route: "/newpost",
       label: "Create",
     },
   ];

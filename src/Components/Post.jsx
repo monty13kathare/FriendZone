@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addCommentOnPost, deletePost, likePost, updatePost } from "../redux/Actions/Post";
 import { getAllPosts, getFollowingPosts, getMyPosts, loadUser } from "../redux/Actions/User";
 import User from "./User";
-import CommentCard from "./CommentCard/CommentCard";
+import CommentCard from "./CommentCard";
 import { VscChromeClose } from "react-icons/vsc";
 import { multiFormatDateString } from "../utils";
 
@@ -29,13 +29,14 @@ const Post = ({
   const [likesUser, setLikesUser] = useState(false);
   const [commentValue, setCommentValue] = useState("");
   const [commentToggle, setCommentToggle] = useState(false);
-  const [captionValue, setCaptionValue] = useState(caption);
-  const [captionToggle, setCaptionToggle] = useState(false);
+
+
+
+
 
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user?.user);
-  console.log('user', user)
 
   const handleLike = async () => {
     setLiked(!liked);
@@ -58,17 +59,9 @@ const Post = ({
     dispatch(getAllPosts())
   };
 
-  const updateCaptionHandler = (e) => {
-    e.preventDefault();
-    dispatch(updatePost(captionValue, postId));
-    dispatch(getMyPosts());
-  };
 
-  const deletePostHandler = async () => {
-    await dispatch(deletePost(postId));
-    dispatch(getMyPosts());
-    dispatch(loadUser());
-  };
+
+
 
   useEffect(() => {
     likes.forEach((item) => {
@@ -108,13 +101,14 @@ const Post = ({
           </div>
         </div>
 
-        <div
-          // to={`/update-post/${postId}`}
+        {/* <div
           onClick={handleRedirect}
-          className={` cursor-pointer ${user._id !== ownerId && 'hidden'}`}
+          className={` cursor-pointer ${user?._id !== ownerId && 'hidden'}`}
         >
           <img src="/assets/icons/edit.svg" alt="edit" width={20} height={20} />
-        </div>
+        </div> */}
+
+
       </div>
       <Link to={`/postDetail/${postId}`}>
         <div className="small-medium lg:base-medium py-5">
@@ -140,19 +134,15 @@ const Post = ({
           <img src={liked ? "/assets/icons/liked.svg" : "/assets/icons/like.svg"} />
         </button>
         <span onClick={() => setLikesUser(!likesUser)} className="cursor-pointer">{likes?.length}</span>
-        <button onClick={() => setCommentToggle(!commentToggle)} className="flex gap-2">
-          <span>💬</span> <span>{comments?.length}</span>
+        <button onClick={() => setCommentToggle(!commentToggle)} className="flex gap-2 items-center">
+          <img src="/assets/icons/comment.svg" className="w-5" /> <span>{comments?.length}</span>
         </button>
-        {isDelete && (
-          <button onClick={deletePostHandler}>
-            <span>🗑️</span>
-          </button>
-        )}
+
       </div>
 
       <div className="max-h-60 overflow-y-auto px-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 mt-4">
         {likes?.length > 0 ? (
-          <div className="flex items-center">
+          <div className="flex items-center cursor-pointer" onClick={() => setLikesUser(!likesUser)}>
             <div className="flex items-center space-x-[-0.5rem]"> {/* Negative margin for overlap */}
               {likes
                 .filter(like => user?.following.some(f => f._id === like._id)) // Check if liked user is followed
@@ -195,11 +185,11 @@ const Post = ({
 
       {likesUser && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg w-full max-w-sm md:max-w-md relative p-4 shadow-lg overflow-hidden">
+          <div className="bg-gray-100 rounded-lg w-full max-w-xs sm:max-w-sm md:max-w-md relative p-4 shadow-lg overflow-hidden">
 
             {/* Close Button */}
             <button
-              className="absolute top-3 right-3 text-gray-700 hover:text-gray-900 transition-all"
+              className="absolute top-2 right-2 text-gray-700 hover:text-gray-900 transition-all"
               onClick={() => setLikesUser(!likesUser)}
             >
               <VscChromeClose size={24} />
@@ -211,7 +201,7 @@ const Post = ({
             </h3>
 
             {/* Likes List */}
-            <div className="max-h-60 overflow-y-auto space-y-3 px-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+            <div className="max-h-48 md:max-h-60 overflow-y-auto space-y-3 px-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
               {likes.length > 0 ? (
                 likes.map((like) => (
                   <div
@@ -223,13 +213,13 @@ const Post = ({
                       <img
                         src={like.avatar.url}
                         alt={like.name}
-                        className="w-10 h-10 rounded-full object-cover"
+                        className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover"
                       />
                       <p className="text-gray-700 font-medium">{like.name}</p>
                     </div>
 
                     {/* Follow Button */}
-                    <button className="text-blue-500 font-semibold hover:underline">
+                    <button className="text-blue-500 font-semibold hover:underline text-sm md:text-base">
                       Follow
                     </button>
                   </div>
@@ -242,16 +232,15 @@ const Post = ({
         </div>
       )}
 
-
       {/* Comments Modal */}
       {commentToggle && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           {/* Modal Container */}
-          <div className="bg-white rounded-lg w-full max-w-sm md:max-w-md relative p-4 shadow-lg overflow-hidden">
+          <div className="bg-white rounded-lg w-full max-w-xs sm:max-w-sm md:max-w-md relative p-4 shadow-lg overflow-hidden">
 
             {/* Header Section */}
             <div className="flex justify-between items-center pb-4 border-b">
-              <h3 className="text-xl font-bold text-gray-800">Comments</h3>
+              <h3 className="text-lg md:text-xl font-bold text-gray-800">Comments</h3>
               <button
                 className="text-gray-800 font-bold hover:text-red-500 transition-colors"
                 onClick={() => setCommentToggle(!commentToggle)}
@@ -261,7 +250,7 @@ const Post = ({
             </div>
 
             {/* Comments Feed */}
-            <div className="mt-4 space-y-4 overflow-y-auto max-h-[50vh] px-4">
+            <div className="mt-4 space-y-4 overflow-y-auto max-h-40 md:max-h-60 px-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
               {comments?.length > 0 ? (
                 comments?.map((item, index) => (
                   <CommentCard
@@ -280,56 +269,39 @@ const Post = ({
               )}
             </div>
 
-            {/* Add Comment Section */}
-            <form onSubmit={addCommentHandler} className="flex items-center mt-4 border-t pt-4 px-4 space-x-3">
+            <form
+              onSubmit={addCommentHandler}
+              className="flex flex-col sm:flex-row items-center mt-4 border-t pt-4 space-y-3 sm:space-y-0 sm:space-x-3"
+            >
               <img
-                src={user.avatar.url}
+                src={user?.avatar?.url}
                 alt="User"
-                className="h-10 w-10 rounded-full border-2"
+                className="h-8 w-8 md:h-10 md:w-10 rounded-full border-2"
               />
+
               <input
                 type="text"
-                className="flex-grow p-2 border border-gray-300 rounded-full text-gray-700 focus:outline-none focus:border-gray-400"
+                className="w-full sm:flex-grow p-2 border border-gray-300 rounded-full text-sm md:text-base text-gray-700 focus:outline-none focus:border-gray-400"
                 placeholder="Add a comment..."
                 value={commentValue}
                 onChange={(e) => setCommentValue(e.target.value)}
                 required
               />
+
               <button
                 type="submit"
-                className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-full hover:bg-blue-600 transition-all"
+                className="bg-primary-500 text-white font-semibold text-sm md:text-base px-4 py-2 rounded-full hover:bg-primary-600 transition-all w-full sm:w-auto"
               >
-                Post
+                Send
               </button>
             </form>
+
           </div>
         </div>
       )}
 
 
-      {/* Update Caption Modal */}
-      {captionToggle && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-6 w-96 relative">
-            <button className="absolute top-2 right-2" onClick={() => setCaptionToggle(!captionToggle)}>
-              <VscChromeClose />
-            </button>
-            <h3 className="text-xl font-bold mb-4">Update Caption</h3>
-            <form onSubmit={updateCaptionHandler} className="space-y-4">
-              <input
-                type="text"
-                className="w-full p-2 border rounded-md"
-                value={captionValue}
-                onChange={(e) => setCaptionValue(e.target.value)}
-                required
-              />
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
-                Update
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
+
     </div>
 
   );
