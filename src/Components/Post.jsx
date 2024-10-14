@@ -81,7 +81,7 @@ const Post = ({
             <img
               src={ownerImage || '/assets/icons/profile-placeholder.svg'}
               alt="creator"
-              className="rounded-full w-12 lg:h-12"
+              className="rounded-full w-12 h-12 lg:h-12"
             />
           </Link>
 

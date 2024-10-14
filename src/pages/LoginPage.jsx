@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { useState } from 'react';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -18,68 +19,26 @@ const loginSchema = z.object({
 });
 
 const Login = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const user = useSelector((state) => state.user);
 
-    console.log('user data ', user)
 
-    // Initialize react-hook-form with zod validation
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm({
-        resolver: zodResolver(loginSchema),
-    });
 
-    const onSubmit = async (values) => {
 
-        try {
-            const response = await axios.post(`/login`, values);
-            if (response.data) {
-                localStorage.setItem("token", JSON.stringify({ token: response.data.token }));
-                navigate("/");
-            }
-        } catch (error) {
-            console.error('Login failed:', error);
-        }
+
+
+
+    const loginHandler = async (e) => {
+        e.preventDefault();
+
+        await dispatch(loginUser(email, password));
+        navigate("/");
+
     };
 
 
-
-
-
-
-    // const SignInByGoogle = useGoogleLogin({
-    //     onSuccess: async (tokenResponse) => {
-    //         try {
-    //             const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
-    //                 headers: {
-    //                     Authorization: `Bearer ${tokenResponse.access_token}`,
-    //                 },
-    //             });
-
-    //             if (userInfoResponse?.data) {
-    //                 const userInfo = await axios.post(`${BASE_URL}auth/social-login`, {
-    //                     email: userInfoResponse.data.email,
-    //                     firstName: userInfoResponse.data.given_name,
-    //                     lastName: userInfoResponse.data.family_name,
-    //                     profilePic: userInfoResponse.data.picture,
-    //                 });
-    //                 dispatch(userData(userInfo?.data));
-    //                 localStorage.setItem("token", JSON.stringify({ token: userInfo?.data?.token }));
-    //                 navigate("/")
-    //                 console.log('Login Success', userInfoResponse?.data)
-    //             }
-    //         } catch (error) {
-    //             console.error('Failed to fetch user info:', error);
-    //         }
-    //     },
-    //     onError: error => {
-    //         console.error('Login Failed:', error);
-    //     },
-    // });
 
 
 
@@ -90,27 +49,27 @@ const Login = () => {
                 <div className="w-full lg:w-1/2 p-8 bg-gray-50">
                     <h2 className="text-2xl font-semibold text-gray-800 text-center lg:text-left">LOGIN</h2>
 
-                    <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
+                    <form className="mt-8" onSubmit={loginHandler}>
                         <div className="mb-4">
                             <label className="block text-sm text-gray-600">Email</label>
                             <input
-                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-blue-500 ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
+                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-blue-500 `}
                                 type="email"
                                 placeholder="Enter email"
-                                {...register('email')}
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                             />
-                            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
                         </div>
 
                         <div className="mb-4">
                             <label className="block text-sm text-gray-600">Password</label>
                             <input
-                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-blue-500 ${errors.password ? 'border-red-500' : 'border-gray-300'}`}
+                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-blue-500 `}
                                 type="password"
                                 placeholder="Enter password"
-                                {...register('password')}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                             />
-                            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
                         </div>
 
                         <div className="flex items-center justify-between mb-4">

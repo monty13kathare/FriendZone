@@ -8,6 +8,7 @@ import { multiFormatDateString } from "../utils";
 import axios from "axios";
 import { deletePost, updatePost } from "../redux/Actions/Post";
 import { VscChromeClose } from "react-icons/vsc";
+import authHeader from "../authHeader";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -53,7 +54,7 @@ const PostDetails = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const { data } = await axios.get(`${BASE_URL}/postDetail/${id}`);
+                const { data } = await axios.get(`${BASE_URL}/api/v1/postDetail/${id}`, authHeader());
                 console.log("postDetail", data?.post);
                 setPost(data?.post)
             } catch (error) {

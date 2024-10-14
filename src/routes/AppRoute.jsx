@@ -38,6 +38,7 @@ function AppRoute() {
                     <Route path="/newpost" element={<CreatePost />} />
                     <Route path="/postDetail/:id" element={<PostDetails />} />
 
+
                     <Route path="/explore" element={<Explore />} />
                     <Route path="/friends" element={<AllUsers />} />
                     <Route path="/update/profile" element={<UpdateProfile />} />

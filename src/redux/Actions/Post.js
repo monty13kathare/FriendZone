@@ -1,4 +1,5 @@
 import axios from "axios";
+import authHeader from "../../authHeader";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -9,7 +10,7 @@ export const likePost = (id) => async (dispatch) => {
       type: "likeRequest",
     });
 
-    const { data } = await axios.get(`${BASE_URL}/api/v1/post/${id}`);
+    const { data } = await axios.get(`${BASE_URL}/api/v1/post/${id}`, authHeader());
     dispatch({
       type: "likeSuccess",
       payload: data.message,
@@ -33,11 +34,7 @@ export const addCommentOnPost = (id, comment) => async (dispatch) => {
       {
         comment,
       },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
+     authHeader(),
     );
     dispatch({
       type: "addCommentSuccess",
@@ -57,8 +54,11 @@ export const deleteCommentOnPost = (id, commentId) => async (dispatch) => {
       type: "deleteCommentRequest",
     });
 
-    const { data } = await axios.delete(`${BASE_URL}/api/v1/post/comment/${id}`, {
+    const { data } = await axios.delete(`${BASE_URL}/api/v1/post/comment/${id}`,
+      authHeader(),
+       {
       data: { commentId },
+      
     });
     dispatch({
       type: "deleteCommentSuccess",
@@ -81,11 +81,7 @@ export const createNewPost = (postData) => async (dispatch) => {
     const { data } = await axios.post(
       `${BASE_URL}/api/v1/post/upload`,
       postData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
+     authHeader(),
     );
     dispatch({
       type: "newPostSuccess",
@@ -110,11 +106,8 @@ export const updatePost = (caption, id) => async (dispatch) => {
       {
         caption,
       },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
+      authHeader(),
+     
     );
     dispatch({
       type: "updateCaptionSuccess",
