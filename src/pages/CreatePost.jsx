@@ -76,8 +76,8 @@ const CreatePost = () => {
 
 
     return (
-        <div className="w-full min-h-screen bg-black text-white flex justify-center items-center px-4">
-            <div className="w-full max-w-lg">
+        <div className="w-full h-screen bg-black text-white flex justify-center items-center px-4 ">
+            <div className="w-full max-w-lg mb-20">
                 <h2 className="text-3xl font-bold mb-6 text-center">Create Post</h2>
                 <form onSubmit={submitHandler} className="space-y-6">
 
@@ -97,7 +97,7 @@ const CreatePost = () => {
                         <label className="block text-sm font-medium mb-2">Add Photos</label>
                         <div
                             {...getRootProps({
-                                className: "border-2 border-dashed border-gray-500 p-4 flex flex-col items-center justify-center text-gray-400 rounded-lg cursor-pointer",
+                                className: " border-2 border-dashed border-gray-500 p-4 flex flex-col items-center justify-center text-gray-400 rounded-lg cursor-pointer",
                             })}
                         >
                             <input {...getInputProps()} />
@@ -107,7 +107,7 @@ const CreatePost = () => {
                                 <img
                                     src={image}
                                     alt="Preview"
-                                    className="w-32 h-32 object-cover rounded-md mb-4"
+                                    className="w-full h-fit object-cover rounded-md"
                                 />
                             ) : (
                                 <>
@@ -115,7 +115,7 @@ const CreatePost = () => {
                                     <p>Drag & Drop image here or click to select</p>
                                     <button
                                         type="button"
-                                        className="bg-blue-600 text-white px-4 py-2 mt-4 rounded-md"
+                                        className="bg-primary-500 text-white px-4 py-2 mt-4 rounded-md"
                                     >
                                         Select from computer
                                     </button>
@@ -159,7 +159,7 @@ const CreatePost = () => {
                         </button>
                         <button
                             type="submit"
-                            className="bg-blue-600 text-white px-4 py-2 rounded-md"
+                            className="bg-primary-500 text-white px-4 py-2 rounded-md"
                         >
                             Create Post
                         </button>

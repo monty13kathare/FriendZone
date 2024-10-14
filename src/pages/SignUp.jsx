@@ -64,14 +64,10 @@ const SignUp = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-
         const formData = { name, nameId, email, password, avatar };
-
         try {
-            const result = await dispatch(registerUser(formData));
-            if (result) {
-                localStorage.setItem("token", JSON.stringify({ token: result.token }));
-            }
+            await dispatch(registerUser(formData));
+
             navigate("/");
         } catch (error) {
             console.error('Registration failed:', error);
@@ -81,8 +77,8 @@ const SignUp = () => {
 
 
     return (
-        <div className="w-full flex items-center justify-center bg-indigo-800">
-            <div className="flex flex-col lg:flex-row w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="w-full flex items-center justify-center bg-primary-500">
+            <div className="flex flex-col lg:flex-row w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden mx-4">
                 {/* Left Section */}
                 <div className="w-full lg:w-1/2 p-8 bg-gray-50">
                     <h2 className="text-2xl font-semibold text-gray-800 text-center lg:text-left">Sign Up</h2>
@@ -119,7 +115,7 @@ const SignUp = () => {
                         <div className="mb-4">
                             <label className="block text-sm text-gray-600">Name</label>
                             <input
-                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-blue-500`}
+                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-primary-500`}
                                 type="text"
                                 placeholder="Enter Name"
                                 onChange={handleNameChange}
@@ -129,7 +125,7 @@ const SignUp = () => {
                         <div className="mb-4">
                             <label className="block text-sm text-gray-600">Username</label>
                             <input
-                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-blue-500 `}
+                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-primary-500 `}
                                 type="text"
                                 placeholder="Enter Username"
                                 onChange={handleNameIdChange}
@@ -139,7 +135,7 @@ const SignUp = () => {
                         <div className="mb-4">
                             <label className="block text-sm text-gray-600">Email</label>
                             <input
-                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-blue-500`}
+                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-primary-500`}
                                 type="email"
                                 placeholder="Enter Email"
                                 onChange={handleEmailChange}
@@ -149,7 +145,7 @@ const SignUp = () => {
                         <div className="mb-4">
                             <label className="block text-sm text-gray-600">Password</label>
                             <input
-                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-blue-500 `}
+                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-primary-500 `}
                                 type="password"
                                 placeholder="Enter Password"
                                 onChange={handlePasswordChange}
@@ -157,7 +153,7 @@ const SignUp = () => {
                         </div>
 
                         <button
-                            className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none"
+                            className="w-full px-4 py-2 text-white bg-primary-500 rounded-lg hover:bg-primary-600 focus:outline-none"
                             type="submit"
                         >
                             Sign Up
@@ -166,8 +162,8 @@ const SignUp = () => {
 
                     <p className="mt-4 text-sm text-center text-gray-600">
                         Already have an account?{' '}
-                        <a href="/login" className="text-blue-500 hover:underline">
-                            Login now
+                        <a href="/login" className="text-primary-500 hover:underline">
+                            Login Now
                         </a>
                     </p>
                 </div>

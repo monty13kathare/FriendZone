@@ -32,10 +32,8 @@ const Login = () => {
 
     const loginHandler = async (e) => {
         e.preventDefault();
-
         await dispatch(loginUser(email, password));
         navigate("/");
-
     };
 
 
@@ -43,8 +41,8 @@ const Login = () => {
 
 
     return (
-        <div className="w-full flex items-center justify-center bg-indigo-800">
-            <div className="flex flex-col lg:flex-row w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="w-full flex items-center justify-center bg-primary-500">
+            <div className="flex flex-col lg:flex-row w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden mx-4">
                 {/* Left Section */}
                 <div className="w-full lg:w-1/2 p-8 bg-gray-50">
                     <h2 className="text-2xl font-semibold text-gray-800 text-center lg:text-left">LOGIN</h2>
@@ -53,7 +51,7 @@ const Login = () => {
                         <div className="mb-4">
                             <label className="block text-sm text-gray-600">Email</label>
                             <input
-                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-blue-500 `}
+                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-primary-500 `}
                                 type="email"
                                 placeholder="Enter email"
                                 value={email}
@@ -64,7 +62,7 @@ const Login = () => {
                         <div className="mb-4">
                             <label className="block text-sm text-gray-600">Password</label>
                             <input
-                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-blue-500 `}
+                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-primary-500 `}
                                 type="password"
                                 placeholder="Enter password"
                                 value={password}
@@ -77,13 +75,13 @@ const Login = () => {
                                 <input className="mr-2" type="checkbox" />
                                 Remember me
                             </label>
-                            <a href="/forgot/password" className="text-sm text-blue-500 hover:underline">
+                            <a href="/forgot/password" className="text-sm text-primary-500 hover:underline">
                                 Forgot password?
                             </a>
                         </div>
 
                         <button
-                            className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none"
+                            className="w-full px-4 py-2 text-white bg-primary-500 rounded-lg hover:bg-primary-600 focus:outline-none"
                             type="submit"
                         >
                             Log in
@@ -103,8 +101,8 @@ const Login = () => {
 
                     <p className="mt-4 text-sm text-center text-gray-600">
                         Don't have an account?{' '}
-                        <a href="/register" className="text-blue-500 hover:underline">
-                            Create one now
+                        <a href="/register" className="text-primary-500 hover:underline">
+                            Create Now
                         </a>
                     </p>
                 </div>

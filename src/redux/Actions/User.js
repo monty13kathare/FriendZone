@@ -167,7 +167,7 @@ export const registerUser =
         }
       );
 
-localStorage.setItem("token", data.token)
+       localStorage.setItem("token", data.token)
 
       dispatch({
         type: "RegisterSuccess",

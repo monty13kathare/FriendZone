@@ -95,7 +95,7 @@ export const createNewPost = (postData) => async (dispatch) => {
   }
 };
 
-export const updatePost = (caption, id) => async (dispatch) => {
+export const updatePost = (caption,location,tags, id) => async (dispatch) => {
   try {
     dispatch({
       type: "updateCaptionRequest",
@@ -105,6 +105,8 @@ export const updatePost = (caption, id) => async (dispatch) => {
       `${BASE_URL}/api/v1/post/${id}`,
       {
         caption,
+        location,
+        tags
       },
       authHeader(),
      
@@ -127,7 +129,7 @@ export const deletePost = (id) => async (dispatch) => {
       type: "deletePostRequest",
     });
 
-    const { data } = await axios.delete(`${BASE_URL}/api/v1/post/${id}`);
+    const { data } = await axios.delete(`${BASE_URL}/api/v1/post/${id}`,authHeader());
     dispatch({
       type: "deletePostSuccess",
       payload: data.message,

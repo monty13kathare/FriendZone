@@ -41,7 +41,6 @@ const Post = ({
   const handleLike = async () => {
     setLiked(!liked);
     await dispatch(likePost(postId));
-    // isAccount ? dispatch(getMyPosts()) : dispatch(getFollowingPosts());
     dispatch(getAllPosts())
   };
 
@@ -55,7 +54,6 @@ const Post = ({
     e.preventDefault();
     await dispatch(addCommentOnPost(postId, commentValue));
     setCommentValue("");
-    // isAccount ? dispatch(getMyPosts()) : dispatch(getFollowingPosts());
     dispatch(getAllPosts())
   };
 
@@ -250,7 +248,7 @@ const Post = ({
             </div>
 
             {/* Comments Feed */}
-            <div className="mt-4 space-y-4 overflow-y-auto max-h-40 md:max-h-60 px-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+            <div className="mt-4 space-y-4 overflow-y-auto max-h-64 md:max-h-60 px-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
               {comments?.length > 0 ? (
                 comments?.map((item, index) => (
                   <CommentCard
@@ -276,7 +274,7 @@ const Post = ({
               <img
                 src={user?.avatar?.url}
                 alt="User"
-                className="h-8 w-8 md:h-10 md:w-10 rounded-full border-2"
+                className="h-8 w-8 md:h-10 md:w-10 md:flex hidden rounded-full border-2"
               />
 
               <input

@@ -19,6 +19,7 @@ import UserProfile from "../pages/UserProfile";
 import Account from "../pages/Account";
 import EditPost from "../pages/EditPost";
 import NotFoundPage from "../Components/NotFound";
+import PrivateRoute from "./private-route";
 
 function AppRoute() {
     const dispatch = useDispatch();
@@ -30,22 +31,19 @@ function AppRoute() {
     return (
         <Router>
             <Routes>
-
                 {/* Routes with static layout (Header and Sidebar) */}
                 <Route element={<RootLayout />}>
-                    <Route index element={<Home />} />
-                    <Route path="/profile/:id" element={<Account />} />
-                    <Route path="/newpost" element={<CreatePost />} />
-                    <Route path="/postDetail/:id" element={<PostDetails />} />
-
-
-                    <Route path="/explore" element={<Explore />} />
-                    <Route path="/friends" element={<AllUsers />} />
-                    <Route path="/update/profile" element={<UpdateProfile />} />
-                    <Route path="/update/password" element={<UpdatePassword />} />
-                    <Route path="/user/:id" element={<UserProfile />} />
-                    <Route path="/update/post/:id" element={<EditPost />} />
-
+                    {/* Protect routes that require authentication */}
+                    <Route index element={<PrivateRoute><Home /></PrivateRoute>} />
+                    <Route path="/profile/:id" element={<PrivateRoute><Account /></PrivateRoute>} />
+                    <Route path="/newpost" element={<PrivateRoute><CreatePost /></PrivateRoute>} />
+                    <Route path="/postDetail/:id" element={<PrivateRoute><PostDetails /></PrivateRoute>} />
+                    <Route path="/explore" element={<PrivateRoute><Explore /></PrivateRoute>} />
+                    <Route path="/friends" element={<PrivateRoute><AllUsers /></PrivateRoute>} />
+                    <Route path="/update/profile" element={<PrivateRoute><UpdateProfile /></PrivateRoute>} />
+                    <Route path="/update/password" element={<PrivateRoute><UpdatePassword /></PrivateRoute>} />
+                    <Route path="/user/:id" element={<PrivateRoute><UserProfile /></PrivateRoute>} />
+                    <Route path="/update/post/:id" element={<PrivateRoute><EditPost /></PrivateRoute>} />
                 </Route>
 
                 {/* Non-auth routes without the layout */}

@@ -8,7 +8,7 @@ const User = ({ userId, name, username, avatar }) => {
       <img
         src={avatar || "/assets/icons/profile-placeholder.svg"}
         alt="creator"
-        className="rounded-full w-14 h-14"
+        className="rounded-full w-20 h-20"
       />
 
       <div className="flex-center flex-col gap-1">
@@ -20,7 +20,7 @@ const User = ({ userId, name, username, avatar }) => {
         </p>
       </div>
 
-      <button type="button" className="shad-button_primary px-5">
+      <button type="button" className="shad-button_primary px-5 py-2">
         Follow
       </button>
     </Link>

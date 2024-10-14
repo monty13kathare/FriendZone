@@ -117,7 +117,7 @@ const UpdateProfile = () => {
             <textarea
               value={tag}
               onChange={(e) => setTag(e.target.value)}
-              className="w-full shad-input rounded p-2 h-24"
+              className="w-full shad-input rounded p-2"
               placeholder="Bio"
             // required
             />
