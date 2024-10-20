@@ -6,6 +6,7 @@ import {
   followAndUnfollowUser,
   getUserPosts,
   getUserProfile,
+  loadUser,
 } from "../redux/Actions/User";
 import Loader from "../Components/Loader";
 import GridPostList from "../Components/GridPostList";
@@ -47,11 +48,13 @@ const UserProfile = () => {
     setFollowing(!following);
     await dispatch(followAndUnfollowUser(user._id));
     dispatch(getUserProfile(params.id));
+
   };
 
   useEffect(() => {
     dispatch(getUserPosts(params.id));
     dispatch(getUserProfile(params.id));
+    dispatch(loadUser())
   }, [dispatch, params.id]);
 
   useEffect(() => {
@@ -86,7 +89,7 @@ const UserProfile = () => {
               user?.avatar?.url || "/assets/icons/profile-placeholder.svg"
             }
             alt="profile"
-            className="w-28 h-28 lg:h-36 lg:w-36 rounded-full"
+            className="w-28 h-28 lg:h-36 lg:w-36 rounded-full object-cover"
           />
           <div className="flex flex-col flex-1 justify-between md:mt-2">
             <div className="flex flex-col w-full">

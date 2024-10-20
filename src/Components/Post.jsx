@@ -25,18 +25,20 @@ const Post = ({
   isAccount = false,
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user?.user);
+
   const [liked, setLiked] = useState(false);
   const [likesUser, setLikesUser] = useState(false);
   const [commentValue, setCommentValue] = useState("");
   const [commentToggle, setCommentToggle] = useState(false);
 
+  const [following, setFollowing] = useState(false);
+  const currentUserFollowing = useSelector((state) => state.user?.user?.following);
 
 
 
 
-
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user?.user);
 
   const handleLike = async () => {
     setLiked(!liked);
@@ -68,7 +70,13 @@ const Post = ({
   }, [likes, user?._id]);
 
 
+  // Function to check if the current user is following the given creator
+  const isFollowingUser = (creatorId) => {
+    return currentUserFollowing?.some((item) => item._id === creatorId);
+  };
 
+
+  console.log('likes', likes)
 
   return (
 
@@ -200,30 +208,33 @@ const Post = ({
 
             {/* Likes List */}
             <div className="max-h-48 md:max-h-60 overflow-y-auto space-y-3 px-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-              {likes.length > 0 ? (
-                likes.map((like) => (
-                  <div
-                    key={like._id}
-                    className="flex items-center justify-between border-b py-2"
-                  >
-                    {/* User Info */}
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={like.avatar.url}
-                        alt={like.name}
-                        className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover"
-                      />
-                      <p className="text-gray-700 font-medium">{like.name}</p>
-                    </div>
+              {likes?.length > 0 ? (
+                likes?.map((like) => {
+                  const isFollowing = isFollowingUser(like?._id);
+                  return (
+                    <div
+                      key={like._id}
+                      className="flex items-center justify-between border-b py-2"
+                    >
+                      {/* User Info */}
+                      <Link to={`/user/${like?._id}`} className="flex items-center gap-3">
+                        <img
+                          src={like.avatar.url}
+                          alt={like.name}
+                          className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover"
+                        />
+                        <p className="text-gray-700 font-medium">{like.name}</p>
+                      </Link>
 
-                    {/* Follow Button */}
-                    <button className="text-blue-500 font-semibold hover:underline text-sm md:text-base">
-                      Follow
-                    </button>
-                  </div>
-                ))
+                      {/* Follow Button */}
+                      <button className="text-blue-500 font-semibold hover:underline text-sm md:text-base">
+                        {isFollowing ? "UnFollow" : "Follow"}
+                      </button>
+                    </div>
+                  )
+                })
               ) : (
-                <p className="text-center text-gray-500">No likes yet</p>
+                <p className="text-center text-gray-500 py-4">No likes yet</p>
               )}
             </div>
           </div>

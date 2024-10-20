@@ -10,6 +10,12 @@ const AllUsers = () => {
     const dispatch = useDispatch();
     const { users, loading: usersLoading } = useSelector((state) => state.allUsers);
     const currentUserId = useSelector((state) => state.user?.user?._id);
+    const [following, setFollowing] = useState(false);
+    const currentUserFollowing = useSelector((state) => state.user?.user?.following);
+
+
+    console.log('following', following)
+
 
     // State to manage search value
     const [searchValue, setSearchValue] = useState("");
@@ -26,6 +32,12 @@ const AllUsers = () => {
                 user.nameId.toLowerCase().includes(searchValue.toLowerCase()))
         );
     });
+
+    // Function to check if the current user is following the given creator
+    const isFollowingUser = (creatorId) => {
+        return currentUserFollowing?.some((item) => item._id === creatorId);
+    };
+
 
     return (
         <div className="common-container">
@@ -59,11 +71,12 @@ const AllUsers = () => {
                 ) : (
                     <ul className="user-grid">
                         {filteredUsers?.length > 0 ? (
-                            filteredUsers.map((creator) => (
-                                <li key={creator?._id} className="flex-1 min-w-[200px] w-full">
-                                    <User avatar={creator?.avatar?.url} name={creator?.name} username={creator?.nameId} userId={creator?._id} />
-                                </li>
-                            ))
+                            filteredUsers.map((creator) => {
+                                const isFollowing = isFollowingUser(creator?._id);
+                                return (<li key={creator?._id} className="flex-1 min-w-[200px] w-full">
+                                    <User avatar={creator?.avatar?.url} name={creator?.name} username={creator?.nameId} userId={creator?._id} isFollowing={isFollowing} />
+                                </li>)
+                            })
                         ) : (
                             <p className="text-light-4 text-center w-full mt-4">
                                 No users found matching your search criteria.

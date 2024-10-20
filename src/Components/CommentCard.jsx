@@ -57,7 +57,7 @@ const CommentCard = ({
           onClick={deleteCommentHandle}
           className="text-gray-500 hover:text-red-500 transition-all"
         >
-          <VscTrash size={20} />
+          <VscTrash size={20} className="hover:text-rose-500" />
         </button>
       )}
     </div>

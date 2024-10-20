@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const User = ({ userId, name, username, avatar }) => {
+const User = ({ userId, name, username, avatar, isFollowing }) => {
   return (
 
 
@@ -8,7 +8,7 @@ const User = ({ userId, name, username, avatar }) => {
       <img
         src={avatar || "/assets/icons/profile-placeholder.svg"}
         alt="creator"
-        className="rounded-full w-20 h-20"
+        className="rounded-full w-20 h-20 object-cover"
       />
 
       <div className="flex-center flex-col gap-1">
@@ -21,7 +21,9 @@ const User = ({ userId, name, username, avatar }) => {
       </div>
 
       <button type="button" className="shad-button_primary px-5 py-2">
-        Follow
+        {
+          isFollowing ? "Unfollow" : "Follow"
+        }
       </button>
     </Link>
   );
