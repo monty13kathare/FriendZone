@@ -81,10 +81,10 @@ const CreatePost = () => {
 
 
     return (
-        <div className="w-full h-screen bg-black text-white flex justify-center items-center px-4 ">
-            <div className="w-full max-w-lg mb-20 py-6">
-                <h2 className="text-3xl font-bold mb-6 text-center">Create Post</h2>
-                <form onSubmit={submitHandler} className="flex flex-col gap-6">
+        <div className="w-full h-full overflow-y-scroll bg-black text-white flex flex-col justify-center items-center px-4 ">
+            <div className="w-full custom-height max-w-lg py-6  justify-center">
+                <h2 className="text-3xl font-bold text-center">Create Post</h2>
+                <form onSubmit={submitHandler} className="flex flex-col gap-6 py-6">
 
                     {/* Caption Input */}
                     <div>
@@ -102,7 +102,7 @@ const CreatePost = () => {
                         <label className="block text-sm font-medium mb-2">Add Photos</label>
                         <div
                             {...getRootProps({
-                                className: "w-full h-52 border-2 border-dashed border-gray-500 p-4 flex flex-col items-center justify-center text-gray-400 rounded-lg cursor-pointer",
+                                className: "w-full h-fit border-2 border-dashed border-gray-500 p-4 flex flex-col items-center justify-center text-gray-400 rounded-lg cursor-pointer",
                             })}
                         >
                             <input {...getInputProps()} />
@@ -112,7 +112,7 @@ const CreatePost = () => {
                                 <img
                                     src={image}
                                     alt="Preview"
-                                    className="w-full h-full object-cover rounded-md"
+                                    className="w-full h-fit object-cover rounded-md"
                                 />
                             ) : (
                                 <>

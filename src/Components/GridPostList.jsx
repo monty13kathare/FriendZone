@@ -10,13 +10,11 @@ const GridPostList = ({
 }) => {
     const user = useSelector((state) => state.user?.user);
 
-    console.log('user 234', user)
-    console.log('posts', posts)
 
     return (
         <ul className="grid-container">
             {posts?.map((post) => (
-                <li key={post._id} className="relative min-w-80 h-80">
+                <li key={post._id} className="relative md:min-w-80 md:h-80 w-full h-60">
                     <Link to={`/postDetail/${post._id}`} className="grid-post_link">
                         <img
                             src={post.image?.url}
@@ -34,7 +32,7 @@ const GridPostList = ({
                                         "/assets/icons/profile-placeholder.svg"
                                     }
                                     alt="creator"
-                                    className="w-8 h-8 rounded-full"
+                                    className="w-8 h-8 rounded-full object-cover"
                                 />
                                 <p className="line-clamp-1">{post.owner.name}</p>
                             </div>

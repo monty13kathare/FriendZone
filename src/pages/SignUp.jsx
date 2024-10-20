@@ -7,11 +7,6 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-// import { userData } from '../redux/features/userSlice';
-
-const BASE_URL = process.env.REACT_APP_BASE_URL;
-
 
 // Zod schema for validation
 const schema = z.object({
@@ -23,58 +18,47 @@ const schema = z.object({
 
 const SignUp = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [avatar, setAvatar] = useState(null);
-    const [name, setName] = useState("");
-    const [nameId, setNameId] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-
-
-    const dispatch = useDispatch();
+    const [avatarError, setAvatarError] = useState('');
+    const [loading, setLoading] = useState(false)
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(schema),
     });
 
-    const handleNameChange = (e) => {
-        setName(e.target.value)
-    }
-    const handleNameIdChange = (e) => {
-        setNameId(e.target.value)
-    }
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value)
-    }
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value)
-    }
-
+    // Handle image change
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         const Reader = new FileReader();
         Reader.readAsDataURL(file);
-
         Reader.onload = () => {
             if (Reader.readyState === 2) {
                 setAvatar(Reader.result);
+                setAvatarError('');
             }
         };
     };
 
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        const formData = { name, nameId, email, password, avatar };
+    // Form submission handler
+    const onSubmit = async (data) => {
+        if (!avatar) {
+            setAvatarError('Please upload an avatar image.');
+            return;
+        }
+        const formData = { ...data, avatar };
+        setLoading(true);
         try {
-            await dispatch(registerUser(formData));
 
+            await dispatch(registerUser(formData));
             navigate("/");
         } catch (error) {
             console.error('Registration failed:', error);
+        } finally {
+            setLoading(false);  // Stop loading
         }
     };
-
-
 
     return (
         <div className="w-full flex items-center justify-center bg-primary-500">
@@ -83,7 +67,7 @@ const SignUp = () => {
                 <div className="w-full lg:w-1/2 p-8 bg-gray-50">
                     <h2 className="text-2xl font-semibold text-gray-800 text-center lg:text-left">Sign Up</h2>
 
-                    <form className="mt-8" onSubmit={onSubmit}>
+                    <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
                         <div className="w-full flex justify-center items-center">
                             <div className="relative w-24 h-24 flex items-center justify-center">
                                 <div className="w-20 h-20 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden">
@@ -93,7 +77,6 @@ const SignUp = () => {
                                         <img src={dummy} alt="Profile" className="w-full h-full object-cover" />
                                     )}
                                 </div>
-
                                 {/* Add Icon */}
                                 <div className="absolute bottom-0 right-0 w-8 h-8 bg-gray-200 border-2 border-white rounded-full flex items-center justify-center cursor-pointer">
                                     <label htmlFor="fileInput" className="cursor-pointer">
@@ -112,51 +95,61 @@ const SignUp = () => {
                             </div>
                         </div>
 
+                        {/* Avatar Error */}
+                        {avatarError && (
+                            <p className="text-rose-500 text-sm mt-2 text-center">{avatarError}</p>
+                        )}
+
                         <div className="mb-4">
                             <label className="block text-sm text-gray-600">Name</label>
                             <input
-                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-primary-500`}
+                                {...register('name')}
+                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-primary-500 ${errors.name ? 'border-red-500' : ''}`}
                                 type="text"
                                 placeholder="Enter Name"
-                                onChange={handleNameChange}
                             />
+                            {errors.name && <p className="text-rose-500 text-xs mt-1">{errors.name.message}</p>}
                         </div>
 
                         <div className="mb-4">
                             <label className="block text-sm text-gray-600">Username</label>
                             <input
-                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-primary-500 `}
+                                {...register('nameId')}
+                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-primary-500 ${errors.nameId ? 'border-red-500' : ''}`}
                                 type="text"
                                 placeholder="Enter Username"
-                                onChange={handleNameIdChange}
                             />
+                            {errors.nameId && <p className="text-rose-500 text-xs mt-1">{errors.nameId.message}</p>}
                         </div>
 
                         <div className="mb-4">
                             <label className="block text-sm text-gray-600">Email</label>
                             <input
-                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-primary-500`}
+                                {...register('email')}
+                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-primary-500 ${errors.email ? 'border-red-500' : ''}`}
                                 type="email"
                                 placeholder="Enter Email"
-                                onChange={handleEmailChange}
                             />
+                            {errors.email && <p className="text-rose-500 text-xs mt-1">{errors.email.message}</p>}
                         </div>
 
                         <div className="mb-4">
                             <label className="block text-sm text-gray-600">Password</label>
                             <input
-                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-primary-500 `}
+                                {...register('password')}
+                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-primary-500 ${errors.password ? 'border-red-500' : ''}`}
                                 type="password"
                                 placeholder="Enter Password"
-                                onChange={handlePasswordChange}
                             />
+                            {errors.password && <p className="text-rose-500 text-xs mt-1">{errors.password.message}</p>}
                         </div>
 
                         <button
                             className="w-full px-4 py-2 text-white bg-primary-500 rounded-lg hover:bg-primary-600 focus:outline-none"
                             type="submit"
+                            disabled={loading}
                         >
-                            Sign Up
+                            {loading ? 'Signing Up...' : 'Sign Up'}
                         </button>
                     </form>
 

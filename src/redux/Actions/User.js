@@ -215,11 +215,7 @@ export const updatePassword =
       const { data } = await axios.put(
         `${BASE_URL}/api/v1/update/password`,
         { oldPassword, newPassword },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        authHeader(),
       );
 
       dispatch({

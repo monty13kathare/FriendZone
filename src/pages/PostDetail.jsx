@@ -121,7 +121,7 @@ const PostDetails = () => {
                 <Loader />
             ) : (
                 <div className="post_details-card">
-                    <img src={post.image?.url} alt="creator" className="post_details-img" />
+                    <img src={post.image?.url} alt="creator" className="post_details-img " />
 
                     <div className="post_details-info">
                         <div className="flex-between w-full">
@@ -129,7 +129,7 @@ const PostDetails = () => {
                                 <img
                                     src={post.owner?.avatar?.url || "/assets/icons/profile-placeholder.svg"}
                                     alt="creator"
-                                    className="w-8 h-8 lg:w-12 lg:h-12 rounded-full"
+                                    className="w-8 h-8 lg:w-12 lg:h-12 rounded-full object-cover"
                                 />
                                 <div className="flex gap-1 flex-col">
                                     <p className="base-medium lg:body-bold text-light-1">{post.owner?.name}</p>
@@ -137,8 +137,8 @@ const PostDetails = () => {
                                         <p className="subtle-semibold lg:small-regular">
                                             {multiFormatDateString(post.createdAt)}
                                         </p>
-                                        •
-                                        <p className="subtle-semibold lg:small-regular">{post?.location}</p>
+                                        {/* •
+                                        <p className="subtle-semibold lg:small-regular">{post?.location}</p> */}
                                     </div>
                                 </div>
                             </Link>
@@ -161,12 +161,17 @@ const PostDetails = () => {
                                 )}
                             </div>
                         </div>
+                        <div className="flex gap-1 flex-wrap text-light-3">
+                            <p className="subtle-semibold lg:small-regular">Location - </p>
+                            <p className="subtle-semibold lg:small-regular ">{post?.location}</p>
+
+                        </div>
 
                         <hr className="border w-full border-dark-4/80" />
 
                         <div className="flex flex-col flex-1 w-full small-medium lg:base-regular">
                             <p>{post.caption}</p>
-                            <ul className="flex gap-1 mt-2">
+                            <ul className="flex gap-1 mt-2 flex-wrap">
                                 {post.tags?.split(",").map((tag, index) => (
                                     <li key={`${tag}${index}`} className="text-light-3 small-regular">#{tag}</li>
                                 ))}
@@ -203,6 +208,16 @@ const PostDetails = () => {
                                 className="w-full p-2 border border-gray-300 text-gray-500 rounded-md text-sm md:text-base"
                                 value={captionValue}
                                 onChange={(e) => setCaptionValue(e.target.value)}
+                                placeholder="Update Caption"
+                                required
+                            />
+
+                            <input
+                                type="text"
+                                className="w-full p-2 border border-gray-300 text-gray-500 rounded-md text-sm md:text-base"
+                                value={tags}
+                                onChange={(e) => setTags(e.target.value)}
+                                placeholder="Update Tags"
                                 required
                             />
                             <input
@@ -210,13 +225,7 @@ const PostDetails = () => {
                                 className="w-full p-2 border border-gray-300 text-gray-500 rounded-md text-sm md:text-base"
                                 value={location}
                                 onChange={(e) => setLocation(e.target.value)}
-                                required
-                            />
-                            <input
-                                type="text"
-                                className="w-full p-2 border border-gray-300 text-gray-500 rounded-md text-sm md:text-base"
-                                value={tags}
-                                onChange={(e) => setTags(e.target.value)}
+                                placeholder="Update Location"
                                 required
                             />
                             <button

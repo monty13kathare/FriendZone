@@ -31,13 +31,13 @@ const Account = () => {
     <div className="profile-container">
 
       <div className="profile-inner_container">
-        <div className="flex xl:flex-row flex-col max-xl:items-center flex-1 gap-7">
+        <div className="flex xl:flex-row flex-col max-xl:items-center flex-1 gap-7 ">
           <img
             src={
               user.avatar?.url || "/assets/icons/profile-placeholder.svg"
             }
             alt="profile"
-            className="w-28 h-28 lg:h-36 lg:w-36 rounded-full"
+            className="w-28 h-28 lg:h-36 lg:w-36 rounded-full object-cover"
           />
           <div className="flex flex-col flex-1 justify-between md:mt-2">
             <div className="flex flex-col w-full">

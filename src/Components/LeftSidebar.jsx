@@ -29,10 +29,11 @@ const LeftSidebar = () => {
         <nav className='leftsidebar'>
             <div className="flex flex-col gap-11">
                 <Link to="/" className='flex gap-3 items-center text-2xl font-bold'>
-                    <i className="fa-solid fa-hand-peace text-4xl"></i> FriendZone
+                    <i className="fa-solid fa-hand-peace text-4xl text-primary-500"></i>
+                    <p>Friend<span className='text-primary-500'>Zone</span></p>
                 </Link>
                 <Link to={`/profile/${user?._id}`} className='flex gap-3 items-center'>
-                    <img src={user?.avatar?.url || "/assets/icons/profile-placeholder.svg"} alt="profile" className='h-14 w-14 rounded-full' />
+                    <img src={user?.avatar?.url || "/assets/icons/profile-placeholder.svg"} alt="profile" className='h-14 w-14 rounded-full object-cover' />
                     <div className="flex flex-col">
                         <p className='body-bold'>{user?.name}</p>
                         <p className='small-regular text-light-3'>@{user?.nameId}</p>
