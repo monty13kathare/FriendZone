@@ -14,6 +14,8 @@ const CreatePost = () => {
     const [caption, setCaption] = useState("");
     const [location, setLocation] = useState("");
     const [tags, setTags] = useState("");
+    const [loading, setLoading] = useState(false);
+
 
     const dispatch = useDispatch();
 
@@ -54,13 +56,14 @@ const CreatePost = () => {
 
 
 
+
     const submitHandler = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
         const postData = { caption, location, tags, image };
 
         try {
-            // Dispatch the createNewPost action and wait for it to complete
             await dispatch(createNewPost(postData));
 
             // If successful, dispatch loadUser to update user state
@@ -69,6 +72,8 @@ const CreatePost = () => {
 
         } catch (error) {
             console.error("Failed to create post:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -77,17 +82,17 @@ const CreatePost = () => {
 
     return (
         <div className="w-full h-screen bg-black text-white flex justify-center items-center px-4 ">
-            <div className="w-full max-w-lg mb-20">
+            <div className="w-full max-w-lg mb-20 py-6">
                 <h2 className="text-3xl font-bold mb-6 text-center">Create Post</h2>
-                <form onSubmit={submitHandler} className="space-y-6">
+                <form onSubmit={submitHandler} className="flex flex-col gap-6">
 
                     {/* Caption Input */}
                     <div>
                         <label htmlFor="caption" className="block text-sm font-medium mb-2">Caption</label>
                         <textarea
                             id="caption"
-                            className={`w-full p-3 rounded-md bg-gray-800 border  focus:ring focus:ring-blue-500 focus:border-blue-500`}
-                            rows={4}
+                            className={`w-full p-3 rounded-md bg-gray-800 border border-gray-600  focus:ring focus:ring-blue-500 focus:border-blue-500`}
+                            rows={2}
                             onChange={handleCaptionChange}
                         />
                     </div>
@@ -97,7 +102,7 @@ const CreatePost = () => {
                         <label className="block text-sm font-medium mb-2">Add Photos</label>
                         <div
                             {...getRootProps({
-                                className: " border-2 border-dashed border-gray-500 p-4 flex flex-col items-center justify-center text-gray-400 rounded-lg cursor-pointer",
+                                className: "w-full h-52 border-2 border-dashed border-gray-500 p-4 flex flex-col items-center justify-center text-gray-400 rounded-lg cursor-pointer",
                             })}
                         >
                             <input {...getInputProps()} />
@@ -107,12 +112,12 @@ const CreatePost = () => {
                                 <img
                                     src={image}
                                     alt="Preview"
-                                    className="w-full h-fit object-cover rounded-md"
+                                    className="w-full h-full object-cover rounded-md"
                                 />
                             ) : (
                                 <>
                                     <i className="fas fa-image text-4xl mb-4"></i>
-                                    <p>Drag & Drop image here or click to select</p>
+                                    <p className="text-center">Drag & Drop image here or click to select</p>
                                     <button
                                         type="button"
                                         className="bg-primary-500 text-white px-4 py-2 mt-4 rounded-md"
@@ -161,7 +166,33 @@ const CreatePost = () => {
                             type="submit"
                             className="bg-primary-500 text-white px-4 py-2 rounded-md"
                         >
-                            Create Post
+                            {loading ? (
+                                <>
+                                    <svg
+                                        className="animate-spin h-5 w-5 mr-3 text-white inline-block"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <circle
+                                            className="opacity-25"
+                                            cx="12"
+                                            cy="12"
+                                            r="10"
+                                            stroke="currentColor"
+                                            strokeWidth="4"
+                                        ></circle>
+                                        <path
+                                            className="opacity-75"
+                                            fill="currentColor"
+                                            d="M4 12a8 8 0 018-8v8H4z"
+                                        ></path>
+                                    </svg>
+                                    Posting...
+                                </>
+                            ) : (
+                                "Create Post"
+                            )}
                         </button>
                     </div>
                 </form>

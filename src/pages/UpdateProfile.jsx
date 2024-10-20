@@ -17,6 +17,7 @@ const UpdateProfile = () => {
   const [tag, setTag] = useState(user.tag);
   const [avatar, setAvatar] = useState("");
   const [avatarPrev, setAvatarPrev] = useState(user.avatar.url);
+  const [loadBtn, setLoadBtn] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -32,8 +33,17 @@ const UpdateProfile = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    await dispatch(updateProfile(name, nameId, tag, avatar));
-    dispatch(loadUser());
+    setLoadBtn(true)
+    try {
+      await dispatch(updateProfile(name, nameId, tag, avatar));
+      dispatch(loadUser());
+      navigate(-1);
+    } catch (error) {
+      console.error("Failed to Update Profile:", error);
+    } finally {
+      setLoadBtn(false);
+    }
+
   };
 
   useEffect(() => {
@@ -51,8 +61,8 @@ const UpdateProfile = () => {
   if (loading) return <Loader />;
 
   return (
-    <div className="w-full text-white p-8">
-      <div className="max-w-2xl mx-auto">
+    <div className="w-full h-screen text-white p-8 overflow-y-scroll">
+      <div className="max-w-2xl h-full mx-auto">
         <h1 className="text-2xl font-bold mb-6 flex items-center">
           <FaRegEdit className="mr-2" />
           Edit Profile
@@ -123,7 +133,7 @@ const UpdateProfile = () => {
             />
           </div>
 
-          <div className="flex justify-end space-x-4">
+          <div className="flex justify-end space-x-4 pb-6">
             <button
               type="button"
               onClick={() => navigate(-1)}
@@ -136,7 +146,33 @@ const UpdateProfile = () => {
               disabled={updateLoading}
               className="px-4 py-2 bg-primary-500  whitespace-nowrap rounded disabled:opacity-50"
             >
-              Update Profile
+              {loadBtn ? (
+                <>
+                  <svg
+                    className="animate-spin h-5 w-5 mr-3 text-white inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v8H4z"
+                    ></path>
+                  </svg>
+                  Updating...
+                </>
+              ) : (
+                " Update Profile"
+              )}
             </button>
           </div>
         </form>

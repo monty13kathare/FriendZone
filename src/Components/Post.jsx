@@ -269,12 +269,12 @@ const Post = ({
 
             <form
               onSubmit={addCommentHandler}
-              className="flex flex-col sm:flex-row items-center mt-4 border-t pt-4 space-y-3 sm:space-y-0 sm:space-x-3"
+              className="flex flex-col sm:flex-row items-center border-t md:pt-4 space-y-3 sm:space-y-0 sm:space-x-3"
             >
               <img
                 src={user?.avatar?.url}
                 alt="User"
-                className="h-8 w-8 md:h-10 md:w-10 md:flex hidden rounded-full border-2"
+                className=" md:h-10 md:w-10 md:flex hidden rounded-full border-2"
               />
 
               <input

@@ -22,6 +22,8 @@ const PostDetails = () => {
 
     const [post, setPost] = useState({});
     const [captionToggle, setCaptionToggle] = useState(false);
+    const [deleteToggle, setDeleteToggle] = useState(false);
+
     const [captionValue, setCaptionValue] = useState("");
     const [location, setLocation] = useState("");
     const [tags, setTags] = useState("");
@@ -91,6 +93,7 @@ const PostDetails = () => {
 
     const deleteMyPost = async (id) => {
         await dispatch(deletePost(id));
+        setDeleteToggle(false)
         navigate(-1);
     };
 
@@ -151,7 +154,7 @@ const PostDetails = () => {
                                             onClick={() => setCaptionToggle(!captionToggle)}
                                             className=" cursor-pointer"
                                         />
-                                        <button onClick={() => deleteMyPost(post._id)} className="post_details-delete_btn cursor-pointer">
+                                        <button onClick={() => setDeleteToggle(!deleteToggle)} className="post_details-delete_btn cursor-pointer">
                                             <img src={"/assets/icons/delete.svg"} alt="delete" width={24} height={24} />
                                         </button>
                                     </>
@@ -181,13 +184,15 @@ const PostDetails = () => {
                 {loading ? <Loader /> : <GridPostList posts={randomPosts} />}
             </div>
 
+
+
             {/* Update Caption Modal */}
             {captionToggle && (
                 <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center">
-                    <div className="flex gap-4 flex-col bg-gray-800 rounded-lg p-6 w-full max-w-xs sm:max-w-sm md:max-w-md relative">
+                    <div className="flex gap-4 flex-col bg-white rounded-lg p-6 w-full max-w-xs sm:max-w-sm md:max-w-md relative">
                         <div className="flex justify-between h-fit">
-                            <h3 className="text-lg md:text-xl font-bold mb-4 text-gray-200">Update Post</h3>
-                            <button className="text-gray-200 text-base h-fit" onClick={() => setCaptionToggle(!captionToggle)}>
+                            <h3 className="text-lg md:text-xl font-bold mb-4 text-gray-900">Update Post</h3>
+                            <button className="text-gray-900 text-base h-fit" onClick={() => setCaptionToggle(!captionToggle)}>
                                 <VscChromeClose />
                             </button>
                         </div>
@@ -224,6 +229,37 @@ const PostDetails = () => {
                     </div>
                 </div>
             )}
+
+            {/* Delete Post Modal */}
+            {deleteToggle && (
+                <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center">
+                    <div className="flex gap-4 flex-col bg-white rounded-lg p-6 w-full max-w-xs sm:max-w-sm md:max-w-md relative">
+                        <div className="flex justify-between h-fit">
+                            <h3 className="text-lg md:text-xl font-bold mb-4 text-gray-900">Delete Post</h3>
+                            <button className="text-gray-900 text-base h-fit" onClick={() => setDeleteToggle(!deleteToggle)}>
+                                <VscChromeClose />
+                            </button>
+                        </div>
+                        <p className="text-gray-900">Are you sure you want to delete this post?</p>
+                        <div className="mt-6 flex justify-end space-x-4 text-white">
+                            <button
+                                onClick={() => setDeleteToggle(!deleteToggle)}
+                                className="bg-gray-400  px-4 py-2 rounded hover:bg-gray-500 transition"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() => deleteMyPost(post._id)}
+                                className="bg-red-500  px-4 py-2 text-white rounded bg-rose-400 hover:bg-rose-500 transition"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+
         </div>
     );
 };
