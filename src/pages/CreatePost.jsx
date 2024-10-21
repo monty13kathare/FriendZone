@@ -129,17 +129,7 @@ const CreatePost = () => {
                         </div>
                     </div>
 
-                    {/* Location Input */}
-                    <div>
-                        <label htmlFor="location" className="block text-sm font-medium mb-2">Add Location</label>
-                        <input
-                            id="location"
-                            type="text"
-                            className="w-full p-3 rounded-md bg-gray-800 border border-gray-600 focus:ring focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Enter a location"
-                            onChange={handleLocationChange}
-                        />
-                    </div>
+
 
                     {/* Tags Input */}
                     <div>
@@ -150,6 +140,18 @@ const CreatePost = () => {
                             className="w-full p-3 rounded-md bg-gray-800 border border-gray-600 focus:ring focus:ring-blue-500 focus:border-blue-500"
                             placeholder="Art, Expression, Learn"
                             onChange={handleTagChange}
+                        />
+                    </div>
+
+                    {/* Location Input */}
+                    <div>
+                        <label htmlFor="location" className="block text-sm font-medium mb-2">Add Location</label>
+                        <input
+                            id="location"
+                            type="text"
+                            className="w-full p-3 rounded-md bg-gray-800 border border-gray-600 focus:ring focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Enter a location"
+                            onChange={handleLocationChange}
                         />
                     </div>
 
