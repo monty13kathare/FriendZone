@@ -13,7 +13,6 @@ const Home = () => {
 
     const { loading, posts, error } = useSelector((state) => state.allPosts);
 
-    console.log('posts', posts)
 
     useEffect(() => {
         dispatch(getAllPosts());

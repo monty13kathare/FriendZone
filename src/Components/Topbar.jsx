@@ -9,7 +9,6 @@ const Topbar = () => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user?.user);
 
-    console.log('user', user)
 
 
     const logoutHandler = async () => {

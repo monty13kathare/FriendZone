@@ -76,7 +76,6 @@ const Post = ({
   };
 
 
-  console.log('likes', likes)
 
   return (
 

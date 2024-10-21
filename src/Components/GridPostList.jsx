@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 
@@ -8,8 +7,6 @@ const GridPostList = ({
     posts,
     showUser = true,
 }) => {
-    const user = useSelector((state) => state.user?.user);
-    console.log('posts', posts)
 
     return (
         <ul className="grid-container">

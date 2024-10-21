@@ -28,7 +28,6 @@ const UserProfile = () => {
     error: userError,
   } = useSelector((state) => state?.userProfile);
 
-  console.log('user profile', user)
 
   const { user: me } = useSelector((state) => state.user);
   const { loading, error, posts } = useSelector((state) => state.userPosts);

@@ -14,7 +14,6 @@ const AllUsers = () => {
     const currentUserFollowing = useSelector((state) => state.user?.user?.following);
 
 
-    console.log('following', following)
 
 
     // State to manage search value
