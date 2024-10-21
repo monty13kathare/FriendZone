@@ -114,7 +114,7 @@ const UserProfile = () => {
 
           <div className="flex justify-center items-center">
             {myProfile ? null : (
-              <button type="button" className={`shad-button_primary px-4 py-2 ${following ? "bg-primary-500" : "bg-primary-500"
+              <button type="button" className={`shad-button_primary px-4 py-2 cursor-pointer ${following ? "bg-primary-500" : "bg-primary-500"
                 }`}
                 onClick={followHandler}
                 disabled={followLoading}

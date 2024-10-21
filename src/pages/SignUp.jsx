@@ -22,7 +22,8 @@ const SignUp = () => {
 
     const [avatar, setAvatar] = useState(null);
     const [avatarError, setAvatarError] = useState('');
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(schema),
@@ -59,6 +60,12 @@ const SignUp = () => {
             setLoading(false);  // Stop loading
         }
     };
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+
 
     return (
         <div className="w-full flex items-center justify-center bg-primary-500">
@@ -135,12 +142,28 @@ const SignUp = () => {
 
                         <div className="mb-4">
                             <label className="block text-sm text-gray-600">Password</label>
-                            <input
-                                {...register('password')}
-                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-primary-500 ${errors.password ? 'border-red-500' : ''}`}
-                                type="password"
-                                placeholder="Enter Password"
-                            />
+                            <div className="relative w-full">
+                                <input
+                                    className={`w-full px-4 py-2 text-sm text-gray-700 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${errors.password ? 'border-rose-500 focus:ring-rose-500' : 'border-gray-300'
+                                        }`}
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="Enter password"
+                                    {...register('password')}
+                                />
+                                <span
+                                    className="absolute right-3 top-[60%] transform -translate-y-1/2 cursor-pointer text-gray-600"
+                                    onClick={togglePasswordVisibility}
+                                >
+                                    {showPassword ? (
+                                        <i className="material-symbols-outlined">visibility</i>
+                                    ) : (
+                                        <i className="material-symbols-outlined">visibility_off</i>
+                                    )}
+                                </span>
+                                {errors.password && (
+                                    <p className="text-rose-500 text-xs mt-1">{errors.password.message}</p>
+                                )}
+                            </div>
                             {errors.password && <p className="text-rose-500 text-xs mt-1">{errors.password.message}</p>}
                         </div>
 

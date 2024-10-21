@@ -87,7 +87,7 @@ const Post = ({
             <img
               src={ownerImage || '/assets/icons/profile-placeholder.svg'}
               alt="creator"
-              className="rounded-full w-12 h-12 lg:h-12 object-cover"
+              className="rounded-full w-8 h-8 lg:w-12 lg:h-12 object-cover"
             />
           </Link>
 
@@ -158,7 +158,7 @@ const Post = ({
                     <img
                       src={like.avatar.url}
                       alt={like.name}
-                      className="w-6 h-6 rounded-full object-cover border-2 border-white" // White border for separation
+                      className="md:w-6 md:h-6 w-4 h-4 rounded-full object-cover border-2 border-white" // White border for separation
                       style={{ zIndex: 1 }} // Ensure avatar is above overlapping backgrounds
                     />
                   </div>
@@ -181,7 +181,7 @@ const Post = ({
 
       <div className="flex flex-col">
         <div className="flex gap-2">
-          <span className="text-base font-medium text-gray-400">{ownerName}</span>
+          <span className="text-base font-medium text-gray-400 whitespace-nowrap">{ownerName}</span>
           <p className="text-base font-normal text-gray-500 line-clamp-1">{caption}</p>
         </div>
         <p onClick={() => setCommentToggle(!commentToggle)} className="cursor-pointer text-gray-400">

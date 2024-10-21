@@ -28,7 +28,7 @@ const UpdatePassword = () => {
 
 
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="w-full h-fit md:h-full flex justify-center md:items-center px-4 mt-6 ">
       <form
         className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 max-w-[600px] w-full flex flex-col gap-4"
         onSubmit={submitHandler}
@@ -61,7 +61,7 @@ const UpdatePassword = () => {
 
         <div className="flex  flex-col-reverse md:flex-row gap-4">
           <button
-            className="w-full p-3 bg-gray-400 text-white font-semibold rounded-lg hover:bg-gray-500 transition-all disabled:bg-primary-300"
+            className="w-full p-3 bg-gray-900 text-white font-semibold rounded-lg hover:bg-gray-950 transition-all disabled:bg-primary-300"
             onClick={() => navigate(-1)}
           >
             Cancel

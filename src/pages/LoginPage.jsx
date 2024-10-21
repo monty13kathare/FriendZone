@@ -16,7 +16,8 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");  // State to store error message
+    const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState("");
 
     // Use react-hook-form
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -37,6 +38,12 @@ const Login = () => {
             setLoading(false);  // Stop loading
         }
     };
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+
 
     return (
         <div className="w-full flex items-center justify-center bg-primary-500">
@@ -67,13 +74,29 @@ const Login = () => {
 
                         <div className="mb-4">
                             <label className="block text-sm text-gray-600">Password</label>
-                            <input
-                                className={`w-full px-4 py-2 text-sm text-gray-500 border rounded-lg focus:outline-none focus:border-primary-500 ${errors.password ? 'border-rose-500' : ''
-                                    }`}
-                                type="password"
-                                placeholder="Enter password"
-                                {...register('password')}
-                            />
+                            <div className="relative w-full">
+                                <input
+                                    className={`w-full px-4 py-2 text-sm text-gray-700 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${errors.password ? 'border-rose-500 focus:ring-rose-500' : 'border-gray-300'
+                                        }`}
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="Enter password"
+                                    {...register('password')}
+                                />
+                                <span
+                                    className="absolute right-3 top-[60%] transform -translate-y-1/2 cursor-pointer text-gray-600"
+                                    onClick={togglePasswordVisibility}
+                                >
+                                    {showPassword ? (
+                                        <i className="material-symbols-outlined">visibility</i>
+                                    ) : (
+                                        <i className="material-symbols-outlined">visibility_off</i>
+                                    )}
+                                </span>
+                                {errors.password && (
+                                    <p className="text-rose-500 text-xs mt-1">{errors.password.message}</p>
+                                )}
+                            </div>
+
                             {errors.password && <p className="text-rose-500 text-xs mt-1">{errors.password.message}</p>}
                         </div>
 
@@ -95,16 +118,16 @@ const Login = () => {
                             {loading ? 'Logging in...' : 'Log in'}
                         </button>
 
-                        <div className="flex items-center justify-center mt-4">
+                        {/* <div className="flex items-center justify-center mt-4">
                             <span className="border-b w-1/3 lg:w-1/4"></span>
                             <span className="text-xs text-center text-gray-500 px-3">OR</span>
                             <span className="border-b w-1/3 lg:w-1/4"></span>
-                        </div>
+                        </div> */}
 
-                        <button className="w-full flex justify-center items-center gap-4 p-2 mt-4 border border-gray-300 rounded-md" disabled>
+                        {/* <button className="w-full flex justify-center items-center gap-4 p-2 mt-4 border border-gray-300 rounded-md" disabled>
                             <i className="fab fa-google"></i>
                             <p className="text-base font-medium text-gray-700">Login with Google</p>
-                        </button>
+                        </button> */}
                     </form>
 
                     <p className="mt-4 text-sm text-center text-gray-600">
